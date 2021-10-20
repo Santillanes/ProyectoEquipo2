@@ -1,3 +1,11 @@
+package Proyecto;
+
+
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+import javax.swing.border.Border;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,9 +21,37 @@ public class Activos extends javax.swing.JFrame {
     /**
      * Creates new form Activos
      */
+    
+    class RoundedBorder implements Border {
+
+    private int radius;
+
+    RoundedBorder(int radius) {
+        this.radius = radius;
+    }
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+    }
+}
+    
     public Activos(String usu) {
         usuario = usu;
         initComponents();
+        
+        setSize(414, 896);
+        this.setLocationRelativeTo(null);
+        
+        btnGenerar.setBorder(new RoundedBorder(30));
+        btnVolver.setBorder(new RoundedBorder(30));
         
     }
 
@@ -35,51 +71,45 @@ public class Activos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
         btnGenerar = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("QR Activos");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(114, 71, 186, 45);
 
-        btnVolver.setText("Volver");
+        btnVolver.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(255, 255, 255));
+        btnVolver.setText("Salir");
+        btnVolver.setContentAreaFilled(false);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
             }
         });
+        getContentPane().add(btnVolver);
+        btnVolver.setBounds(151, 813, 113, 33);
 
+        btnGenerar.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnGenerar.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerar.setText("Generar QR");
+        btnGenerar.setContentAreaFilled(false);
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
+        getContentPane().add(btnGenerar);
+        btnGenerar.setBounds(116, 755, 183, 33);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(157, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(146, 146, 146))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 596, Short.MAX_VALUE)
-                .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
-        );
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo 414x986 4.0.png"))); // NOI18N
+        getContentPane().add(fondo);
+        fondo.setBounds(-2, -2, 440, 900);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -138,6 +168,7 @@ public class Activos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerar;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

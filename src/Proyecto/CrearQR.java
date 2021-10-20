@@ -1,18 +1,29 @@
+package Proyecto;
+
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,14 +35,94 @@ import javax.swing.JOptionPane;
  *
  * @author Santillanes
  */
+
+
+
+
 public class CrearQR extends javax.swing.JFrame {
     String usuario;
     String nombre;
     /**
      * Creates new form CrearQR
      */
+    
+    class RoundJTextField extends JTextField {
+
+    private Shape shape;
+
+    public RoundJTextField(int size) {
+        super(size);
+        setOpaque(false); // As suggested by @AVD in comment.
+    }
+
+    protected void paintComponent(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        super.paintComponent(g);
+    }
+
+    protected void paintBorder(Graphics g) {
+        g.setColor(getForeground());
+        g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+    }
+
+    public boolean contains(int x, int y) {
+        if (shape == null || !shape.getBounds().equals(getBounds())) {
+            shape = new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        }
+        return shape.contains(x, y);
+    }
+}
+    
+    class RoundedBorder implements Border {
+
+    private int radius;
+
+    RoundedBorder(int radius) {
+        this.radius = radius;
+    }
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+    }
+}
+    
+    
+    
+    JTextField txtNomVis = new RoundJTextField(15);
+    JTextField txtTelVis = new RoundJTextField(15);
+    
     public CrearQR(String usu) {
         initComponents();
+        
+        jPanel1.add(txtNomVis);
+        jPanel1.add(txtTelVis);
+        
+        txtNomVis.setVisible(true);
+        txtNomVis.setBounds(47, 372, 320, 35);
+        
+        txtTelVis.setVisible(true);
+        txtTelVis.setBounds(47, 470, 320, 35);
+        
+        /*String texto = "<html><body>El QR que estás por generar tendrá <br> un solo uso para entrar y salir <br> del fraccionamiento. </body></html>";
+        lblCade.setText(texto);
+        lblCade.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCade.setBounds(53, 154, 308, 81);*/
+        
+        setSize(414, 896);
+        this.setLocationRelativeTo(null);
+        
+        btnGenerar.setBorder(new RoundedBorder(30));
+        btnVolver.setBorder(new RoundedBorder(30));
+        
         usuario = usu;
         cmbParentesco.addItem("Elige...");
         cmbParentesco.addItem("Hijo");
@@ -60,116 +151,108 @@ public class CrearQR extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        lblCade = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtTelVis = new javax.swing.JTextField();
-        txtNomVis = new javax.swing.JTextField();
-        btnVolver = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        cmbParentesco = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
         btnGenerar = new javax.swing.JButton();
+        cmbParentesco = new javax.swing.JComboBox<>();
+        btnVolver = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblCade = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblCade1 = new javax.swing.JLabel();
+        lblCade2 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(414, 896));
+        setUndecorated(true);
+        getContentPane().setLayout(null);
 
-        jLabel1.setText("Crear QR");
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(null);
 
-        lblCade.setText("El QR que estás por generar tendrá un solo uso para entrar y salir del fraccionamiento");
-
-        jLabel3.setText("Nombre del visitante:");
-
-        jLabel4.setText("Parentesco del visitante:");
-
-        jLabel5.setText("* Teléfono del visitante:");
-
-        txtTelVis.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtTelVisKeyTyped(evt);
-            }
-        });
-
-        btnVolver.setText("Volver");
-        btnVolver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVolverActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("* El número telefónico debe ser de 10 dígitos. Ej: 614-111-22-33");
-
+        btnGenerar.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnGenerar.setForeground(new java.awt.Color(255, 255, 255));
         btnGenerar.setText("Generar QR");
+        btnGenerar.setContentAreaFilled(false);
         btnGenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnGenerar);
+        btnGenerar.setBounds(129, 696, 156, 45);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCade)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(txtNomVis, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtTelVis, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(cmbParentesco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                    .addComponent(jLabel5))
-                                .addComponent(jLabel6))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jLabel1)
-                .addGap(31, 31, 31)
-                .addComponent(lblCade)
-                .addGap(110, 110, 110)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomVis, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTelVis, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cmbParentesco, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addContainerGap())
-        );
+        jPanel1.add(cmbParentesco);
+        cmbParentesco.setBounds(47, 569, 320, 35);
+
+        btnVolver.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(255, 255, 255));
+        btnVolver.setText("Salir");
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.setFocusPainted(false);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVolver);
+        btnVolver.setBounds(151, 772, 113, 33);
+
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Teléfono del visitante:");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(47, 437, 270, 23);
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Parentesco del visitante:");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(53, 536, 290, 23);
+
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nombre del visitante:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(47, 338, 280, 23);
+
+        lblCade.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        lblCade.setForeground(new java.awt.Color(255, 255, 255));
+        lblCade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCade.setText("del fraccionamiento.");
+        lblCade.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblCade);
+        lblCade.setBounds(117, 210, 180, 23);
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 40)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Crear QR");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(119, 71, 176, 52);
+
+        lblCade1.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        lblCade1.setForeground(new java.awt.Color(255, 255, 255));
+        lblCade1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCade1.setText("El QR que estás por generar tendrá");
+        lblCade1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblCade1);
+        lblCade1.setBounds(53, 154, 308, 23);
+
+        lblCade2.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        lblCade2.setForeground(new java.awt.Color(255, 255, 255));
+        lblCade2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCade2.setText("un solo uso para entrar y salir");
+        lblCade2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(lblCade2);
+        lblCade2.setBounds(77, 182, 260, 23);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(-2, -1, 420, 900);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo 414x896 3.0.png"))); // NOI18N
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 0, 410, 900);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -181,13 +264,6 @@ public class CrearQR extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_btnVolverActionPerformed
-
-    private void txtTelVisKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelVisKeyTyped
-        // TODO add your handling code here:
-        if (txtTelVis.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtTelVisKeyTyped
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         
@@ -288,12 +364,13 @@ public class CrearQR extends javax.swing.JFrame {
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbParentesco;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCade;
-    private javax.swing.JTextField txtNomVis;
-    private javax.swing.JTextField txtTelVis;
+    private javax.swing.JLabel lblCade1;
+    private javax.swing.JLabel lblCade2;
     // End of variables declaration//GEN-END:variables
 }

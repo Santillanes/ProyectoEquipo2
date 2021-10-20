@@ -1,3 +1,5 @@
+package Proyecto;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -21,6 +23,9 @@ import javax.imageio.ImageIO;
  *
  * @author Santillanes
  */
+
+
+
 public class Pantalla2 extends javax.swing.JFrame {
     String usuario;
     /**
@@ -28,8 +33,19 @@ public class Pantalla2 extends javax.swing.JFrame {
      */
     public Pantalla2(String usu) {
         initComponents();
+        
+        setSize(414, 896);
+        this.setLocationRelativeTo(null);
+        
         lblWelcome.setText("¡Bienvenido, " + usu + "!");
+        lblWelcome.setForeground(Color.WHITE);
+        
         usuario = usu;
+        
+        btnCrear.setBorder(new RoundedBorder(30));
+        btnActivos.setBorder(new RoundedBorder(30));
+        btnCerrarSesion.setBorder(new RoundedBorder(30));
+        btnEditPerfil.setBorder(new RoundedBorder(30));
     }
 
     private Pantalla2() {
@@ -50,73 +66,83 @@ public class Pantalla2 extends javax.swing.JFrame {
         btnEditPerfil = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
         btnCrear = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
+        getContentPane().setLayout(null);
 
+        lblWelcome.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        lblWelcome.setForeground(new java.awt.Color(255, 255, 255));
         lblWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblWelcome.setText("lblWelcome");
+        getContentPane().add(lblWelcome);
+        lblWelcome.setBounds(64, 216, 286, 39);
 
+        btnActivos.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        btnActivos.setForeground(new java.awt.Color(255, 255, 255));
+        btnActivos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/qr activos.png"))); // NOI18N
         btnActivos.setText("QR Activos");
+        btnActivos.setContentAreaFilled(false);
+        btnActivos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnActivos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnActivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActivosActionPerformed(evt);
             }
         });
+        getContentPane().add(btnActivos);
+        btnActivos.setBounds(224, 320, 146, 146);
 
+        btnEditPerfil.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        btnEditPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/VER PERFIL.png"))); // NOI18N
         btnEditPerfil.setText("Ver Perfil");
+        btnEditPerfil.setContentAreaFilled(false);
+        btnEditPerfil.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEditPerfil.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnEditPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditPerfilActionPerformed(evt);
             }
         });
+        getContentPane().add(btnEditPerfil);
+        btnEditPerfil.setBounds(44, 500, 146, 146);
 
+        btnCerrarSesion.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit.png"))); // NOI18N
         btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setContentAreaFilled(false);
+        btnCerrarSesion.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCerrarSesion.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarSesionActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCerrarSesion);
+        btnCerrarSesion.setBounds(224, 500, 146, 146);
 
+        btnCrear.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/qr.png"))); // NOI18N
         btnCrear.setText("Crear QR");
+        btnCrear.setContentAreaFilled(false);
+        btnCrear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCrear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCrear);
+        btnCrear.setBounds(44, 320, 146, 146);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnEditPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                        .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(78, 78, 78))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(lblWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(351, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo 414x986 4.0.png"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 415, 896);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -194,6 +220,7 @@ public class Pantalla2 extends javax.swing.JFrame {
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditPerfil;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables
 }
