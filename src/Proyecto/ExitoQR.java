@@ -110,6 +110,11 @@ public class ExitoQR extends javax.swing.JFrame {
         btnCompartir.setContentAreaFilled(false);
         btnCompartir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCompartir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCompartir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCompartirActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnCompartir);
         btnCompartir.setBounds(129, 591, 150, 150);
 
@@ -158,6 +163,13 @@ public class ExitoQR extends javax.swing.JFrame {
         this.dispose(); 
         
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnCompartirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompartirActionPerformed
+        // TODO add your handling code here:
+        compartirQR nF = new compartirQR(usuario, nombre);
+        nF.setVisible(true);
+        this.dispose(); 
+    }//GEN-LAST:event_btnCompartirActionPerformed
 
     /**
      * @param args the command line arguments

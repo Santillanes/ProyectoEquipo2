@@ -274,9 +274,9 @@ public class CrearQR extends javax.swing.JFrame {
                     int num = (int)((Math.random()*9)+1);
                     code += num;
                 }
-                code += "\nNombre del visitante: "+txtNomVis.getText()
-                        +"\nTelefono del visitante: "+txtTelVis.getText()
-                        +"\nParentesco: "+cmbParentesco.getSelectedItem();
+                code += "\n"+txtNomVis.getText()
+                        +"\n"+txtTelVis.getText()
+                        +"\n"+cmbParentesco.getSelectedItem();
 
                 String content = code;
                 String filePath = "C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\Images\\";
