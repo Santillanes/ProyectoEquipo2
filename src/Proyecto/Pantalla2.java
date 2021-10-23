@@ -1,6 +1,9 @@
 package Proyecto;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.FormatException;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -173,7 +176,18 @@ public class Pantalla2 extends javax.swing.JFrame {
 
     private void btnActivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivosActionPerformed
         
-        Activos nF = new Activos(usuario);
+        Activos nF = null;
+        try {
+            nF = new Activos(usuario);
+        } catch (IOException ex) {
+            Logger.getLogger(Pantalla2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotFoundException ex) {
+            Logger.getLogger(Pantalla2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ChecksumException ex) {
+            Logger.getLogger(Pantalla2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FormatException ex) {
+            Logger.getLogger(Pantalla2.class.getName()).log(Level.SEVERE, null, ex);
+        }
         nF.setVisible(true);
         this.dispose();
         

@@ -6,6 +6,11 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -102,6 +107,7 @@ class RoundedBorder implements Border {
 public class login extends javax.swing.JFrame {
 
     boolean ver = false;
+    String user = "";
 
     /**
      * Creates new form login
@@ -216,16 +222,45 @@ public class login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    
+    public boolean validarLog(String usuario){
+        try{
+            ObjectInputStream tra = new ObjectInputStream(new FileInputStream(usuario));
+            
+            Object usua = tra.readObject();
+            Object nom = tra.readObject();
+            Object dire = tra.readObject();
+            Object tel = tra.readObject();
+            Object email = tra.readObject();
+            Object fec = tra.readObject();
+            Object pass = tra.readObject();
+            
+            
+            if (txtPass2.getText().equals(pass)) {
+                user = usua.toString();
+                return true;
+            }else{
+                return false;
+            }
+                   
+        }catch(IOException | ClassNotFoundException e){
+            return false;
+        }
+    }
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // TODO add your handling code here:
-        if ("admin".equals(txtUsu.getText()) && "123abc".equals(txtPass2.getText())) {
-            Pantalla2 nF = new Pantalla2(txtUsu.getText());
+        
+        if (validarLog(txtUsu.getText())) {
+            Pantalla2 nF = new Pantalla2(user);
             nF.setVisible(true);
             this.dispose();
-        } else {
+        }else{
             JOptionPane.showMessageDialog(null, "Usuario y/o contraseña incorrecto.\nIntente nuevamente.");
+            txtPass2.setText("");
+            txtUsu.setText("");
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
 

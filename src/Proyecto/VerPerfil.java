@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -160,6 +164,35 @@ public class VerPerfil extends javax.swing.JFrame {
         
         btnChgPass.setBorder(new RoundedBorder(30));
         btnVolver.setBorder(new RoundedBorder(30));
+        
+        //Establecer datos del usuario
+        try{
+            ObjectInputStream tra = new ObjectInputStream(new FileInputStream(usuario));
+                    // "c" es el numero de control y el nombre del archivo que se va a buscar
+                    // Input es entrada, es para importar los datos de los archivos ya creados
+            Object usua = tra.readObject();
+            Object nom = tra.readObject();
+            Object dire = tra.readObject();
+            Object tel = tra.readObject();
+            Object email = tra.readObject();
+            Object fec = tra.readObject();
+            Object pass = tra.readObject();
+                    //En estas 3 lineas se leen los datos del archivo ya existente
+                    // .readObject() es para leer datos del archivo ya existente
+            txtUsu.setText(usua.toString());
+            txtNombre.setText(nom.toString());
+            txtDire.setText(dire.toString());
+            txtTelefono.setText(tel.toString());
+            txtEmail.setText(email.toString());
+            txtFecha.setText(fec.toString());
+            txtPass.setText(pass.toString());
+                    //Sirve para colocar en los textField los datos leidos
+                    
+                    //PARA CREAR ARCHIVOS, ES NECESARIO UN TRY CATCH
+        }catch(IOException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(null, "Error. "+e.getMessage());
+        }
+        
     }
 
     private VerPerfil() {

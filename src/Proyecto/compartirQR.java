@@ -122,13 +122,11 @@ public class compartirQR extends javax.swing.JFrame {
         c.setAsunto("Código QR");
         c.setMensaje("¡Hola! Este es tu código QR. \nRecuerda guardarlo muy bien, ya que será tu boleto de entrada y salida del fraccionamiento.");
         c.setDestino(JOptionPane.showInputDialog("Igrese su correo electrónico: "));
-        c.setNombreArchivo("CódigoQR");
+        c.setNombreArchivo("CódigoQR.png");
         c.setRutaArchivo(nom);
         controlador co = new controlador();
         if (co.enviarCorreo(c)) {
-            exitoCorreo nF = new exitoCorreo(usu);
-            nF.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "¡QR compartido con éxito!");
         }else{
             JOptionPane.showMessageDialog(null, "Error al enviar el mensaje.");
         }

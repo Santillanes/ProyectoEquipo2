@@ -7,6 +7,12 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -125,6 +131,7 @@ public class ChngPass extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,9 +176,9 @@ public class ChngPass extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("un número y un símbolo.");
+        jLabel6.setText("Debe contener entre 7 y 15 caracteres.");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(117, 504, 180, 19);
+        jLabel6.setBounds(70, 540, 280, 19);
 
         btnGuardar.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -183,7 +190,7 @@ public class ChngPass extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(90, 562, 234, 33);
+        btnGuardar.setBounds(90, 630, 234, 33);
 
         btnVolver.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
@@ -196,6 +203,13 @@ public class ChngPass extends javax.swing.JFrame {
         });
         jPanel1.add(btnVolver);
         btnVolver.setBounds(151, 833, 113, 32);
+
+        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("un número y un símbolo.");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(117, 504, 180, 19);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 420, 900);
@@ -222,32 +236,68 @@ public class ChngPass extends javax.swing.JFrame {
         boolean esp = false;
 
         if (txtPass1.getText().equals(txtPass2.getText())) {
-            for (int i = 0; i < txtPass1.getPassword().length; i++) {
-                char car = txtPass1.getPassword()[i];
-                if (" ".equals(car)) {
-                    JOptionPane.showMessageDialog(null, "No se permiten espacios.");
-                } else {
-                    if (Character.isUpperCase(car)) {
-                        may = true;
-                    } else if (Character.isLowerCase(car)) {
-                        min = true;
-                    } else if (Character.isDigit(car)) {
-                        num = true;
+            if (txtPass1.toString().length() > 6 && txtPass1.toString().length() <= 15) {
+                for (int i = 0; i < txtPass1.getPassword().length; i++) {
+                    char car = txtPass1.getPassword()[i];
+                    if (" ".equals(car)) {
+                        JOptionPane.showMessageDialog(null, "No se permiten espacios.");
                     } else {
-                        esp = true;
+                        if (Character.isUpperCase(car)) {
+                            may = true;
+                        } else if (Character.isLowerCase(car)) {
+                            min = true;
+                        } else if (Character.isDigit(car)) {
+                            num = true;
+                        } else {
+                            esp = true;
+                        }
                     }
                 }
-            }
-            if (may && min && num && esp) {
-                ExitoContra nF = new ExitoContra(usuario);
-                nF.setVisible(true);
-                this.dispose();
-            } else {
+                if (may && min && num && esp) {
+                    String usu,nomb,dir,tele,correo,fecha;
+                    try{
+                        //  GUARDAR DATOS
+                        ObjectInputStream tra = new ObjectInputStream(new FileInputStream(usuario));
+
+                        usu = tra.readObject().toString();
+                        nomb = tra.readObject().toString();
+                        dir = tra.readObject().toString();
+                        tele = tra.readObject().toString();
+                        correo = tra.readObject().toString();
+                        fecha = tra.readObject().toString();
+
+                        //  ESCRIBIR NUEVOS DATOS
+                        ObjectOutputStream guar = new ObjectOutputStream(new FileOutputStream(usuario)); 
+
+                        guar.writeObject(usu);
+                        guar.writeObject(nomb);
+                        guar.writeObject(dir);
+                        guar.writeObject(tele);
+                        guar.writeObject(correo);
+                        guar.writeObject(fecha);
+                        guar.writeObject(txtPass1.getText());
+
+                    }catch(IOException | ClassNotFoundException e){
+                        System.out.println("Error contraseña: " + e);
+                    }
+
+                    ExitoContra nF = new ExitoContra(usuario);
+                    nF.setVisible(true);
+                    this.dispose();
+                } else {
+                    lbl1.setForeground(Color.RED);
+                    lbl2.setForeground(Color.RED);
+
+                    JOptionPane.showMessageDialog(null, "La contraseña no cumple con los requisitos mínimos.");
+                }
+            }else{
                 lbl1.setForeground(Color.RED);
                 lbl2.setForeground(Color.RED);
-                JOptionPane.showMessageDialog(null, "La contraseña no cumple con los requisitos mínimos.");
+                JOptionPane.showMessageDialog(null, "La contraseña debe contener entre 7 y 15 caracteres.");
             }
         } else {
+            lbl1.setForeground(Color.RED);
+            lbl2.setForeground(Color.RED);
             JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
         }
 
@@ -296,6 +346,7 @@ public class ChngPass extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;

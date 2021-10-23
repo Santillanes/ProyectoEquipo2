@@ -16,7 +16,12 @@ import java.awt.event.KeyListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Calendar;
 import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -24,6 +29,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -112,6 +123,9 @@ public class CrearQR extends javax.swing.JFrame {
         txtTelVis.setVisible(true);
         txtTelVis.setBounds(47, 470, 320, 35);
         
+        
+       
+        
         /*String texto = "<html><body>El QR que estás por generar tendrá <br> un solo uso para entrar y salir <br> del fraccionamiento. </body></html>";
         lblCade.setText(texto);
         lblCade.setHorizontalAlignment(SwingConstants.CENTER);
@@ -136,6 +150,22 @@ public class CrearQR extends javax.swing.JFrame {
         cmbParentesco.addItem("Hermano");
         cmbParentesco.addItem("Hermana");
         cmbParentesco.addItem("Otro");
+        
+        
+        txtTelVis.addKeyListener(new KeyListener(){
+
+            public void keyTyped(KeyEvent e){
+                if (txtTelVis.getText().length()== 10)
+                    e.consume();
+            }
+
+            public void keyPressed(KeyEvent arg0) {
+            }
+
+            public void keyReleased(KeyEvent arg0) {
+            }
+        });
+        
     }
     
     private CrearQR() {
@@ -265,6 +295,10 @@ public class CrearQR extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    
+    
+    
+    
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
         
         if (txtNomVis.getText()!="" && cmbParentesco.getSelectedItem() != "Elige..." && txtTelVis.getText()!="") {
@@ -274,22 +308,36 @@ public class CrearQR extends javax.swing.JFrame {
                     int num = (int)((Math.random()*9)+1);
                     code += num;
                 }
-                code += "\n"+txtNomVis.getText()
+                System.out.println("code = " + code);
+                //String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                LocalDateTime gene = LocalDateTime.now();
+                LocalDateTime expira = gene.plusDays(1);
+                
+                String cont = code
+                        + "\n"+txtNomVis.getText()
                         +"\n"+txtTelVis.getText()
-                        +"\n"+cmbParentesco.getSelectedItem();
-
-                String content = code;
+                        +"\n"+cmbParentesco.getSelectedItem()
+                        +"\n"+gene
+                        +"\n"+expira;
+                
+                System.out.println("gene = " + gene);
+                System.out.println("expira = " + expira);
+                
+                String content = cont;
                 String filePath = "C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\Images\\";
                 String fileType = "png";
                 int size = 300;
-                UUID uuid = UUID.randomUUID();
-                String randomUUIDString = uuid.toString();
+                //UUID uuid = UUID.randomUUID();
+                //String randomUUIDString = uuid.toString();
                 QRCodeWriter qrcode = new QRCodeWriter();
                 BitMatrix matrix = qrcode.encode(content, BarcodeFormat.QR_CODE, size, size);
-                File qrFile = new File(filePath + usuario + "_" + randomUUIDString + "." + fileType);
-                nombre = filePath + usuario + "_" + randomUUIDString + "." + fileType;
+                //File qrFile = new File(filePath + usuario + "_" + randomUUIDString + "." + fileType);
+                File qrFile = new File(filePath + usuario + "_" + code + "." + fileType);
+                //nombre = filePath + usuario + "_" + randomUUIDString + "." + fileType;
+                nombre = filePath + usuario + "_" + code + "." + fileType;
                 System.out.println("filePath = " + filePath);
-                System.out.println("randomUUIDString = " + randomUUIDString);
+                //System.out.println("randomUUIDString = " + randomUUIDString);
+                System.out.println("randomUUIDString = " + code);
                 System.out.println("fileType = " + fileType);
                 int matrixWidth = matrix.getWidth();
                 BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
@@ -308,10 +356,28 @@ public class CrearQR extends javax.swing.JFrame {
                     }
                 }
                 ImageIO.write(image, fileType, qrFile);
+                
+                // CREACIÓN DE ARCHIVO CON LOS QRs
+                String dire = "C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\DataBases\\"+usuario+"QRsDataBase";
+                if (new File(dire).exists()) {
+                    ObjectInputStream tra = new ObjectInputStream(new FileInputStream(dire));
+                    Object con = tra.readObject();
+                    ObjectOutputStream guar = new ObjectOutputStream(new FileOutputStream(dire));
+                    guar.writeObject(con+"|"+usuario + "_" + code + "." + fileType);
+                }else{
+                    ObjectOutputStream guar = new ObjectOutputStream(new FileOutputStream(dire));
+                    guar.writeObject(usuario + "_" + code + "." + fileType);
+                }
+                
+                ObjectInputStream tra = new ObjectInputStream(new FileInputStream(dire));
+                System.out.println("Archivo = " + tra.readObject());
+                
             } catch (WriterException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CrearQR.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             ExitoQR nF = new ExitoQR(usuario, nombre);
