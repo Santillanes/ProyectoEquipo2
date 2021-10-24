@@ -158,6 +158,7 @@ public class CrearQR extends javax.swing.JFrame {
         cmbParentesco.addItem("Otro");
         
         
+        
         txtTelVis.addKeyListener(new KeyListener(){
 
             public void keyTyped(KeyEvent e){
@@ -301,12 +302,19 @@ public class CrearQR extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    
+          
     
     
     
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        
+        String otro = "vacio";
+        if (cmbParentesco.getSelectedItem() == "Otro") {
+            otro = JOptionPane.showInputDialog("¿Qué eres del residente?");
+            if (otro.length() != 0){
+                cmbParentesco.addItem(otro);
+                cmbParentesco.setSelectedItem(otro);
+            }
+        }
         if (txtNomVis.getText()!="" && cmbParentesco.getSelectedItem() != "Elige..." && txtTelVis.getText()!="") {
             try {
                 String code = "";
