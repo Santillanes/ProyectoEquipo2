@@ -5,10 +5,14 @@
  */
 package Proyecto;
 
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 
 /**
  *
@@ -20,10 +24,42 @@ public class compartirQR extends javax.swing.JFrame {
     /**
      * Creates new form compartirQR
      */
+    
+    class RoundedBorder implements Border {
+
+    private int radius;
+
+    RoundedBorder(int radius) {
+        this.radius = radius;
+    }
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+    }
+}
+    
     public compartirQR(String usuario, String nombre) {
         initComponents();
         usu = usuario;
         nom = nombre;
+        
+        setSize(414, 896);
+        this.setLocationRelativeTo(null);
+        
+        btnCorreo.setBorder(new RoundedBorder(30));
+        btnMessenger.setBorder(new RoundedBorder(30));
+        btnSalir.setBorder(new RoundedBorder(30));
+        btnWhats.setBorder(new RoundedBorder(30));
+        
+        
     }
 
     private compartirQR() {
@@ -40,68 +76,71 @@ public class compartirQR extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         btnWhats = new javax.swing.JButton();
         btnMessenger = new javax.swing.JButton();
         btnCorreo = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(null);
 
-        jLabel1.setText("¿Por dónde te gustaría compartir el QR?");
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("compartir el QR?");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(80, 198, 254, 39);
 
-        btnWhats.setText("Whatsapp");
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("¿Por dónde te gustaría");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(37, 154, 340, 39);
 
-        btnMessenger.setText("Messenger");
+        btnWhats.setForeground(new java.awt.Color(255, 255, 255));
+        btnWhats.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/whats.png"))); // NOI18N
+        btnWhats.setContentAreaFilled(false);
+        getContentPane().add(btnWhats);
+        btnWhats.setBounds(142, 301, 130, 130);
 
-        btnCorreo.setText("Correo");
+        btnMessenger.setForeground(new java.awt.Color(255, 255, 255));
+        btnMessenger.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/messenger.png"))); // NOI18N
+        btnMessenger.setContentAreaFilled(false);
+        getContentPane().add(btnMessenger);
+        btnMessenger.setBounds(142, 453, 130, 130);
+
+        btnCorreo.setForeground(new java.awt.Color(255, 255, 255));
+        btnCorreo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/gmail.png"))); // NOI18N
+        btnCorreo.setContentAreaFilled(false);
+        btnCorreo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCorreoActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCorreo);
+        btnCorreo.setBounds(142, 606, 130, 130);
 
+        btnSalir.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
+        btnSalir.setContentAreaFilled(false);
+        btnSalir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSalir);
+        btnSalir.setBounds(151, 841, 113, 33);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(114, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnMessenger, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnWhats, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(107, 107, 107))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(171, 171, 171)
-                .addComponent(btnSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(jLabel1)
-                .addGap(118, 118, 118)
-                .addComponent(btnWhats, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(btnMessenger, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
-                .addComponent(btnCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(32, 32, 32))
-        );
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo2.0.png"))); // NOI18N
+        getContentPane().add(fondo);
+        fondo.setBounds(0, 0, 420, 900);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -187,6 +226,8 @@ public class compartirQR extends javax.swing.JFrame {
     private javax.swing.JButton btnMessenger;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnWhats;
+    private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

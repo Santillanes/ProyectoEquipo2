@@ -102,7 +102,19 @@ public class Activos extends javax.swing.JFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Activos.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
+            if (datos.length() != 0) {
+                System.out.println("datos0 = " + datos.charAt(0));
+                while(datos.charAt(0) == '|'){
+                    System.out.println("datos en while = " + datos);
+                    datos = datos.substring(1);
+                    if (datos.length() == 0) {
+                        break;
+                    }
+                }
+            }
+            
+            
             String[] parts = datos.split("\\|");
             
             for (int i = 0; i < parts.length; i++) {
@@ -111,7 +123,7 @@ public class Activos extends javax.swing.JFrame {
                 File ubicacionImagen = new File("C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\Images\\"+parts[i]);
                 BufferedImage imagen;
 
-                if(ubicacionImagen.exists()){
+                if(ubicacionImagen.exists() && !("".equals(datos))){
                     System.out.println("========== QR #"+(i+1)+" =================");
                     imagen = ImageIO.read(ubicacionImagen);
                     LuminanceSource fuente = new BufferedImageLuminanceSource(imagen);

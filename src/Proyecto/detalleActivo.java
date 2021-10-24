@@ -15,6 +15,11 @@ import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,24 +33,119 @@ import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
  * @author Santillanes
  */
+
+
+  
+
 public class detalleActivo extends javax.swing.JFrame {
     String usu, cod;
     String direccion;
     /**
      * Creates new form detalleActivo
      */
+    
+    class RoundJTextField extends JTextField {
+
+    private Shape shape;
+
+    public RoundJTextField(int size) {
+        super(size);
+        setOpaque(false); // As suggested by @AVD in comment.
+    }
+
+    protected void paintComponent(Graphics g) {
+        g.setColor(getBackground());
+        g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        super.paintComponent(g);
+    }
+
+    protected void paintBorder(Graphics g) {
+        g.setColor(getForeground());
+        g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+    }
+
+    public boolean contains(int x, int y) {
+        if (shape == null || !shape.getBounds().equals(getBounds())) {
+            shape = new RoundRectangle2D.Float(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
+        }
+        return shape.contains(x, y);
+    }
+}
+    
+      class RoundedBorder implements Border {
+
+    private int radius;
+
+    RoundedBorder(int radius) {
+        this.radius = radius;
+    }
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+    }
+}
+    
+    
+    JTextField txtExpiracion = new RoundJTextField(15);
+    JTextField txtGeneracion = new RoundJTextField(15);
+    JTextField txtNombre = new RoundJTextField(15);
+    JTextField txtParen = new RoundJTextField(15);
+    JTextField txtTel = new RoundJTextField(15);
+    
     public detalleActivo(String usuario, String codigo) throws IOException, NotFoundException, ChecksumException, FormatException {
         usu = usuario;
         cod = codigo;
         direccion = "C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\Images\\"+usu+"_"+cod+".png";
         initComponents();
-        
+        setSize(414, 896);
+        this.setLocationRelativeTo(null);
                
+        jPanel1.add(txtExpiracion);
+        jPanel1.add(txtGeneracion);
+        jPanel1.add(txtNombre);
+        jPanel1.add(txtParen);
+        jPanel1.add(txtTel);
+        
+        txtExpiracion.setVisible(true);
+        txtExpiracion.setBounds(47, 466, 320, 35);
+        txtExpiracion.setEditable(false);
+        
+        
+        txtGeneracion.setVisible(true);
+        txtGeneracion.setBounds(47, 368, 320, 35);
+        txtGeneracion.setEditable(false);
+
+        
+        txtNombre.setVisible(true);
+        txtNombre.setBounds(47, 73, 320, 35);
+        txtNombre.setEditable(false);
+        
+        txtParen.setVisible(true);
+        txtParen.setBounds(47, 270, 320, 35);
+        txtParen.setEditable(false);
+        
+        txtTel.setVisible(true);
+        txtTel.setBounds(47, 172, 320, 35);
+        txtTel.setEditable(false);
+        
+        btnBorrar.setBorder(new RoundedBorder(30));
+        btnCompartir.setBorder(new RoundedBorder(30));
+        btnVolver.setBorder(new RoundedBorder(30));
         
         Reader lector = new MultiFormatReader();
         File ubicacionImagen = new File(direccion);
@@ -87,131 +187,102 @@ public class detalleActivo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtTel = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtParen = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtGeneracion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtExpiracion = new javax.swing.JTextField();
         lblImg = new javax.swing.JLabel();
         btnCompartir = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(null);
 
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre del visitante");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(47, 40, 182, 23);
 
-        txtNombre.setFocusable(false);
-
+        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Teléfono del visitante");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(47, 139, 188, 23);
 
-        txtTel.setFocusable(false);
-
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Parentesco del visitante");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(53, 237, 211, 23);
 
-        txtParen.setFocusable(false);
-
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Fecha y hora de generación del QR");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(53, 335, 305, 23);
 
-        txtGeneracion.setFocusable(false);
-
+        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Fecha y hora de expiración del QR");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(53, 433, 298, 23);
+        jPanel1.add(lblImg);
+        lblImg.setBounds(110, 520, 200, 200);
 
-        txtExpiracion.setFocusable(false);
-
+        btnCompartir.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        btnCompartir.setForeground(new java.awt.Color(255, 255, 255));
         btnCompartir.setText("Compartir");
+        btnCompartir.setContentAreaFilled(false);
+        btnCompartir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCompartir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCompartirActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCompartir);
+        btnCompartir.setBounds(47, 764, 144, 33);
 
+        btnBorrar.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        btnBorrar.setForeground(new java.awt.Color(255, 255, 255));
         btnBorrar.setText("Borrar");
+        btnBorrar.setContentAreaFilled(false);
+        btnBorrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnBorrar);
+        btnBorrar.setBounds(223, 764, 144, 33);
 
+        btnVolver.setFont(new java.awt.Font("Yu Gothic UI", 1, 15)); // NOI18N
+        btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
             }
         });
+        jPanel1.add(btnVolver);
+        btnVolver.setBounds(151, 818, 113, 33);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtExpiracion, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtGeneracion, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtParen, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCompartir)
-                                .addGap(60, 60, 60)
-                                .addComponent(btnBorrar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addComponent(btnVolver)))))
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtParen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtGeneracion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtExpiracion, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(lblImg, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCompartir)
-                    .addComponent(btnBorrar))
-                .addGap(18, 18, 18)
-                .addComponent(btnVolver)
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 420, 900);
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo 414x986 4.0.png"))); // NOI18N
+        getContentPane().add(fondo);
+        fondo.setBounds(0, 0, 420, 900);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -230,12 +301,11 @@ public class detalleActivo extends javax.swing.JFrame {
 
     private void btnCompartirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompartirActionPerformed
         // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            enviarCorreo();
-        } catch (MessagingException ex) {
-            System.out.println("Error al enviar: "+ex);
-        }
+        
+        compartirQR nF = new compartirQR(usu,direccion);
+        nF.setVisible(true);
+        this.dispose(); 
+        
     }//GEN-LAST:event_btnCompartirActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
@@ -366,16 +436,13 @@ public class detalleActivo extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnCompartir;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblImg;
-    private javax.swing.JTextField txtExpiracion;
-    private javax.swing.JTextField txtGeneracion;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtParen;
-    private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,6 +35,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -84,6 +87,8 @@ public class CrearQR extends javax.swing.JFrame {
         return shape.contains(x, y);
     }
 }
+    
+    
     
     class RoundedBorder implements Border {
 
@@ -136,6 +141,7 @@ public class CrearQR extends javax.swing.JFrame {
         
         btnGenerar.setBorder(new RoundedBorder(30));
         btnVolver.setBorder(new RoundedBorder(30));
+        //cmbParentesco.setBorder(new RoundedBorder(30));
         
         usuario = usu;
         cmbParentesco.addItem("Elige...");
@@ -326,7 +332,7 @@ public class CrearQR extends javax.swing.JFrame {
                 String content = cont;
                 String filePath = "C:\\Users\\Santillanes\\Desktop\\Prog lógica y funcional\\Equipo2_P1_U2_PLF\\Images\\";
                 String fileType = "png";
-                int size = 300;
+                int size = 200;
                 //UUID uuid = UUID.randomUUID();
                 //String randomUUIDString = uuid.toString();
                 QRCodeWriter qrcode = new QRCodeWriter();

@@ -147,7 +147,7 @@ public class ExitoQR extends javax.swing.JFrame {
 
         lblImg.setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblImg);
-        lblImg.setBounds(60, 280, 300, 300);
+        lblImg.setBounds(100, 330, 200, 200);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondo 414x896 3.0.png"))); // NOI18N
         getContentPane().add(fondo);
