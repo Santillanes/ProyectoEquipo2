@@ -112,6 +112,17 @@ public class Activos extends javax.swing.JFrame {
                         break;
                     }
                 }
+                for (int i = 0; i < datos.length(); i++) {
+                    if (i != datos.length()-1) {
+                        if (datos.charAt(i) == '|' && datos.charAt(i+1) == '|') {
+                            String t1 = datos.substring(0, i);
+                            String t2 = datos.substring(i+1);
+                            System.out.println("t1 = " + t1);
+                            System.out.println("t2 = " + t2);
+                            datos = t1 + t2;
+                        }
+                    }
+                }
             }
             
             

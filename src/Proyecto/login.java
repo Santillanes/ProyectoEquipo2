@@ -147,7 +147,6 @@ public class login extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         btnVer = new javax.swing.JButton();
         btnEntrar = new javax.swing.JButton();
         lblUsuario = new javax.swing.JLabel();
@@ -166,12 +165,6 @@ public class login extends javax.swing.JFrame {
         jPanel1.setLayout(null);
         jPanel1.add(jLabel5);
         jLabel5.setBounds(0, 0, 420, 896);
-
-        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 0, 16)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Soporte (?)");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(169, 862, 76, 21);
 
         btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ojo.png"))); // NOI18N
         btnVer.setBorderPainted(false);
@@ -318,7 +311,6 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton btnVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
